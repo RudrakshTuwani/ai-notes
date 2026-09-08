@@ -23,5 +23,3 @@
   - [ ] [Stanford CS336 Spring 2026 — Lecture 11: Scaling Laws](https://www.youtube.com/watch?v=vTfEyOyzV9E)
 
 ## Post-training
-
-- [ ]
