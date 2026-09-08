@@ -1,0 +1,56 @@
+site_name: AI Notes
+site_url: https://rudrakshtuwani.github.io/ai-notes/
+site_description: Compact notes and cheatsheets for understanding modern language models.
+repo_url: https://github.com/RudrakshTuwani/ai-notes
+repo_name: RudrakshTuwani/ai-notes
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  language: en
+  features:
+    - navigation.instant
+    - navigation.sections
+    - navigation.top
+    - search.highlight
+    - search.suggest
+    - content.code.copy
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: deep orange
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: amber
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+nav:
+  - Home: index.md
+  - Plan: plan.md
+  - Cheatsheets:
+      - Attention: cheatsheets/attention.md
+  - Resources: resources.md
+
+markdown_extensions:
+  - attr_list
+  - md_in_html
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
+
+extra_css:
+  - stylesheets/extra.css
+
+copyright: Built as a compact, evolving guide to language-model fundamentals.
