@@ -3,7 +3,7 @@
 ## Architecture
 
 - [ ] Transformer basics
-  - [ ] Multihead self-attention
+  - [ ] [Multihead self-attention](cheatsheets/attention.md)
   - [ ] LayerNorm
   - [ ] Attention block
 - [ ] [Attention variants](https://magazine.sebastianraschka.com/p/visual-attention-variants)
