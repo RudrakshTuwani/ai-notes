@@ -7,11 +7,14 @@ Let a sequence be $\mathbf{X}=[\mathbf{x}_1,\ldots,\mathbf{x}_N]\in\mathbb{R}^{D
 Create one value vector for every input, then mix those values using an attention function over pairs of positions:
 
 $$
-\mathbf{v}_m=\mathbf{v}[\mathbf{x}_m]\in\mathbb{R}^{D},
-\qquad
-\mathbf{y}_n=\sum_{m=1}^{N}a[\mathbf{x}_m,\mathbf{x}_n]\,\mathbf{v}_m,
-\qquad
-\sum_{m=1}^{N}a[\mathbf{x}_m,\mathbf{x}_n]=1.
+\begin{aligned}
+\mathbf{v}_m
+  &=\mathbf{v}[\mathbf{x}_m]\in\mathbb{R}^{D},\\
+\mathbf{y}_n
+  &=\sum_{m=1}^{N}a[\mathbf{x}_m,\mathbf{x}_n]\,\mathbf{v}_m,\\
+\sum_{m=1}^{N}a[\mathbf{x}_m,\mathbf{x}_n]
+  &=1.
+\end{aligned}
 $$
 
 $\mathbf{v}_m$ carries the content; $a[\mathbf{x}_m,\mathbf{x}_n]$ says how much position $n$ reads from position $m$. Using $\mathbf{v}_m\in\mathbb{R}^{D}$ keeps each output $\mathbf{y}_n$ the same shape as its input embedding, as required for a residual connection.
@@ -31,10 +34,12 @@ $$
 Queries and keys must have the same dimension $D_q$ so their dot product is defined. It becomes the score whose column-wise softmax gives the attention weight:
 
 $$
+\begin{aligned}
 a[\mathbf{x}_m,\mathbf{x}_n]
-=\operatorname{softmax}_{m}(\mathbf{k}_m^{T}\mathbf{q}_n)
-=\frac{\exp(\mathbf{k}_m^{T}\mathbf{q}_n)}
-{\sum_{m'=1}^{N}\exp(\mathbf{k}_{m'}^{T}\mathbf{q}_n)}.
+  &=\operatorname{softmax}_{m}(\mathbf{k}_m^{T}\mathbf{q}_n)\\
+  &=\frac{\exp(\mathbf{k}_m^{T}\mathbf{q}_n)}
+  {\sum_{m'=1}^{N}\exp(\mathbf{k}_{m'}^{T}\mathbf{q}_n)}.
+\end{aligned}
 $$
 
 Therefore, in matrix form:
