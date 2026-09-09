@@ -88,7 +88,34 @@ $$
 \right).
 $$
 
-With independent, unit-variance components, dot-product variance grows with $D_q$; this scaling keeps it stable and helps prevent softmax saturation.
+With independent, zero-mean, unit-variance components, dot-product variance grows with $D_q$; this scaling keeps it stable and helps prevent softmax saturation.
+
+??? note "Proof · why divide by √D_q?"
+
+    For a fixed source $m$ and query $l$, write $s=\mathbf{k}_m^T\mathbf{q}_l=\sum_{i=1}^{D_q}k_iq_i$. Assume all $k_i,q_i$ are mutually independent, with mean $0$ and variance $1$.
+
+    Each product has mean $0$ and variance $1$:
+
+    $$
+    \begin{aligned}
+    \mathbb{E}[k_iq_i]&=\mathbb{E}[k_i]\mathbb{E}[q_i]=0,\\
+    \operatorname{Var}(k_iq_i)
+    &=\mathbb{E}[k_i^2]\mathbb{E}[q_i^2]-0^2=1.
+    \end{aligned}
+    $$
+
+    Independence removes cross-covariances, so:
+
+    $$
+    \begin{aligned}
+    \operatorname{Var}(s)
+    &=\sum_{i=1}^{D_q}\operatorname{Var}(k_iq_i)=D_q,\\
+    \operatorname{Var}\!\left(\frac{s}{\sqrt{D_q}}\right)
+    &=\frac{\operatorname{Var}(s)}{D_q}=1.
+    \end{aligned}
+    $$
+
+    **Connection to softmax.** Larger score differences make probabilities more extreme. For $p=\operatorname{softmax}(s)$, $\partial p_i/\partial s_j=p_i(\delta_{ij}-p_j)$, where $\delta_{ij}=1$ if $i=j$ and $0$ otherwise. As $p$ approaches a one-hot vector, these derivatives approach zero. Scaling removes width-driven variance growth; it does not guarantee nonsaturation for learned, correlated queries and keys.
 
 ## 4. Multi-head self-attention
 
