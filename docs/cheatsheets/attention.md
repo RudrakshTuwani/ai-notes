@@ -4,14 +4,21 @@
 
 !!! note "Notation · tokens are columns"
 
-    $\mathbf{X}=[\mathbf{x}_1,\ldots,\mathbf{x}_N]\in\mathbb{R}^{D\times N}$: $N$ tokens of width $D$. Output $n$ reads from source $m$. Softmax normalizes over **sources $m$**, separately for each query $n$.
+    - $B$: batch size; $b=1,\ldots,B$ indexes sequences.
+    - $L$: sequence length.
+    - $D$: input embedding dimension.
+    - $l=1,\ldots,L$: output (query) position.
+    - $m=1,\ldots,L$: source (key/value) position.
+    - $\mathbf{x}_l\in\mathbb{R}^{D}$: token embedding at position $l$.
+    - $\mathbf{X}=[\mathbf{x}_1,\ldots,\mathbf{x}_L]\in\mathbb{R}^{D\times L}$: one sequence.
+    - Batched input: shape $B\times D\times L$; equations below apply independently to each sequence, omitting $b$.
 
 ## 1. Self-attention
 
 **Create values.** A learned projection determines the content each token contributes:
 
 $$
-\mathbf{v}_m=\boldsymbol{\beta}_v+\boldsymbol{\Omega}_v\mathbf{x}_m
+\mathbf{v}_l=\boldsymbol{\beta}_v+\boldsymbol{\Omega}_v\mathbf{x}_l
 \in\mathbb{R}^{D}.
 $$
 
@@ -19,14 +26,14 @@ $$
 
 $$
 \begin{aligned}
-\mathbf{y}_n
-  &=\sum_{m=1}^{N}a[\mathbf{x}_m,\mathbf{x}_n]\,\mathbf{v}_m,\\
-\sum_{m=1}^{N}a[\mathbf{x}_m,\mathbf{x}_n]
+\mathbf{y}_l
+  &=\sum_{m=1}^{L}a[\mathbf{x}_m,\mathbf{x}_l]\,\mathbf{v}_m,\\
+\sum_{m=1}^{L}a[\mathbf{x}_m,\mathbf{x}_l]
   &=1.
 \end{aligned}
 $$
 
-Collect the values into $\mathbf{V}$ and set $A_{mn}=a[\mathbf{x}_m,\mathbf{x}_n]$. The same mixture becomes:
+Collect the values into $\mathbf{V}$ and set $A_{ml}=a[\mathbf{x}_m,\mathbf{x}_l]$. The same mixture becomes:
 
 $$
 \begin{aligned}
@@ -35,7 +42,7 @@ $$
 \end{aligned}
 $$
 
-Here $\mathbf{1}\in\mathbb{R}^{N}$ broadcasts the bias. Value width $D$ makes the output fit a residual connection; attention itself permits other value widths.
+Here $\mathbf{1}\in\mathbb{R}^{L}$ broadcasts the bias. Value width $D$ makes the output fit a residual connection; attention itself permits other value widths.
 
 ## 2. Dot-product self-attention
 
@@ -43,19 +50,19 @@ Here $\mathbf{1}\in\mathbb{R}^{N}$ broadcasts the bias. Value width $D$ makes th
 
 $$
 \begin{aligned}
-\mathbf{Q}[\mathbf{X}] &= \boldsymbol{\beta}_q\mathbf{1}^{T}+\boldsymbol{\Omega}_q\mathbf{X} &&\in\mathbb{R}^{D_q\times N},\\
-\mathbf{K}[\mathbf{X}] &= \boldsymbol{\beta}_k\mathbf{1}^{T}+\boldsymbol{\Omega}_k\mathbf{X} &&\in\mathbb{R}^{D_q\times N}.
+\mathbf{Q}[\mathbf{X}] &= \boldsymbol{\beta}_q\mathbf{1}^{T}+\boldsymbol{\Omega}_q\mathbf{X} &&\in\mathbb{R}^{D_q\times L},\\
+\mathbf{K}[\mathbf{X}] &= \boldsymbol{\beta}_k\mathbf{1}^{T}+\boldsymbol{\Omega}_k\mathbf{X} &&\in\mathbb{R}^{D_q\times L}.
 \end{aligned}
 $$
 
-Keys and queries have equal width $D_q$. Their dot product gives a score; softmax turns scores into weights:
+Keys and queries have equal width $D_q$. Their dot product gives a score; softmax normalizes over sources $m$ for each query $l$:
 
 $$
 \begin{aligned}
-a[\mathbf{x}_m,\mathbf{x}_n]
-  &=\operatorname{softmax}_{m}(\mathbf{k}_m^{T}\mathbf{q}_n)\\
-  &=\frac{\exp(\mathbf{k}_m^{T}\mathbf{q}_n)}
-  {\sum_{m'=1}^{N}\exp(\mathbf{k}_{m'}^{T}\mathbf{q}_n)}.
+a[\mathbf{x}_m,\mathbf{x}_l]
+  &=\operatorname{softmax}_{m}(\mathbf{k}_m^{T}\mathbf{q}_l)\\
+  &=\frac{\exp(\mathbf{k}_m^{T}\mathbf{q}_l)}
+  {\sum_{m'=1}^{L}\exp(\mathbf{k}_{m'}^{T}\mathbf{q}_l)}.
 \end{aligned}
 $$
 
@@ -68,7 +75,7 @@ $$
 
 !!! tip "Shape check"
 
-    Scores and weights are $N\times N$. Multiplying by values gives $(D\times N)(N\times N)\rightarrow D\times N$.
+    Scores and weights are $L\times L$. Multiplying by values gives $(D\times L)(L\times L)\rightarrow D\times L$.
 
 ## 3. Scaled dot-product self-attention
 
@@ -95,13 +102,13 @@ $$
 \end{aligned}
 $$
 
-All three matrices are $d_h\times N$. Apply the previous step per head:
+All three matrices are $d_h\times L$. Apply the previous step per head:
 
 $$
 \begin{aligned}
 \mathbf{Y}_h &= \mathbf{V}_h\cdot\operatorname{softmax}_{m}\!\left(
 \frac{\mathbf{K}_h^{T}\mathbf{Q}_h}{\sqrt{d_h}}
-\right) \in \mathbb{R}^{d_h\times N}.
+\right) \in \mathbb{R}^{d_h\times L}.
 \end{aligned}
 $$
 
@@ -114,7 +121,7 @@ $$
 \begin{bmatrix}
 \mathbf{Y}_1\\ \vdots\\ \mathbf{Y}_H
 \end{bmatrix}
-\in\mathbb{R}^{D\times N}.
+\in\mathbb{R}^{D\times L}.
 $$
 
 Different projections let the $H$ heads learn different relationships; the output projection recombines their $D/H$-wide representations.
