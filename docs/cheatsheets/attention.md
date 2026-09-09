@@ -115,7 +115,14 @@ With independent, zero-mean, unit-variance components, dot-product variance grow
     \end{aligned}
     $$
 
-    **Connection to softmax.** Larger score differences make probabilities more extreme. For $p=\operatorname{softmax}(s)$, $\partial p_i/\partial s_j=p_i(\delta_{ij}-p_j)$, where $\delta_{ij}=1$ if $i=j$ and $0$ otherwise. As $p$ approaches a one-hot vector, these derivatives approach zero. Scaling removes width-driven variance growth; it does not guarantee nonsaturation for learned, correlated queries and keys.
+    **Connection to softmax.** Softmax exponentiates scores, amplifying their differences:
+
+    - Scores $[0,1]$ → probabilities approximately $[0.27,0.73]$.
+    - Scores $[0,10]$ → probabilities approximately $[0.00005,0.99995]$.
+
+    The second case is **saturation**: almost all attention goes to one token. Small score changes barely change the probabilities, so gradients through softmax become small.
+
+    Wider query/key vectors tend to produce more spread-out scores under the assumptions above. Dividing by $\sqrt{D_q}$ keeps that spread roughly constant: attention should not become overly confident **just because the vectors are wider**. Learned scores can still saturate; scaling only removes this width-driven effect.
 
 ## 4. Multi-head self-attention
 
