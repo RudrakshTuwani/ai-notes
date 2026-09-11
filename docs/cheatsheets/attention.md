@@ -167,3 +167,41 @@ _Notation adapted from Simon J. D. Prince's [Understanding Deep Learning](https:
 - [3Blue1Brown — Attention in transformers, step by step](https://www.3blue1brown.com/lessons/attention/): visual intuition for queries, keys, attention weights, and value mixing. [Watch the video](https://www.youtube.com/watch?v=eMlx5fFNoYc).
 - [Jay Alammar — The Illustrated Transformer](https://jalammar.github.io/illustrated-transformer/): illustrated calculations and a clear walkthrough of multi-head concatenation and output projection. Its matrix diagrams use tokens as rows; this cheatsheet uses columns.
 - [3Blue1Brown — Softmax](https://www.3blue1brown.com/lessons/gpt/#softmax): how scores become probabilities and how scaling changes their concentration.
+
+## Questions
+
+Assume the attention operation above, with no positional information, masking, or dropout.
+
+### Easy
+
+??? question "1. Can attention recognize token order?"
+
+    No: without positional information, self-attention is permutation equivariant, so rearranging the input tokens only rearranges their output embeddings.
+
+??? question "2. Is attention a linear operation? If not, why?"
+
+    No: although mixing values is linear in $\mathbf{V}$ for fixed weights, self-attention computes those weights nonlinearly from the input through query–key dot products and softmax.
+
+??? question "3. For one fixed query in a single head, can adding an exact duplicate of one key–value pair change its weighted value sum?"
+
+    Here, the weighted value sum is $\mathbf{y}_l=\sum_m a_{ml}\mathbf{v}_m$, before any output projection or residual addition; keep the query and all original key–value pairs unchanged, append the duplicate, and recompute softmax over the expanded source set.
+
+    **Answer.** Yes: the duplicate increases that value's combined attention weight, moving $\mathbf{y}_l$ toward it unless the value already equals $\mathbf{y}_l$.
+
+### Medium
+
+??? question "4. Are all the projection biases doing useful work?"
+
+    The query and key projections include biases $\boldsymbol{\beta}_q$ and $\boldsymbol{\beta}_k$: could either be removed without changing the attention weights for any input?
+
+    **Answer.** The key bias can be removed because, for a fixed query, it adds the same constant to every source score:
+
+    $$
+    \mathbf{k}_m^T\mathbf{q}_l
+    = (\boldsymbol{\Omega}_k\mathbf{x}_m)^T\mathbf{q}_l
+    + \boldsymbol{\beta}_k^T\mathbf{q}_l.
+    $$
+
+    The last term is independent of $m$, so it cancels under softmax over sources; dividing scores by $\sqrt{D_q}$ does not change this conclusion.
+
+    The query bias cannot generally be removed: its contribution $(\boldsymbol{\Omega}_k\mathbf{x}_m)^T\boldsymbol{\beta}_q$ can vary across sources and therefore change their relative scores.
