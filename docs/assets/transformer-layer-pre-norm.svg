@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="440" viewBox="0 0 1400 440" role="img" aria-labelledby="title description">
+  <title id="title">Transformer layer — pre-norm</title>
+  <desc id="description">Tokens are columns in a D by L matrix. Input X passes through LayerNorm 1 and multi-head self-attention, then adds X to produce U. U passes through LayerNorm 2 and a shared feed-forward network applied independently at each token, then adds U to produce output Y. Both residual paths bypass normalization and the sublayer.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 8 6" refX="7" refY="3" markerWidth="7" markerHeight="5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0 0 8 3 0 6Z" fill="#15191a"/>
+    </marker>
+    <g id="grid" fill="none" stroke="#15191a" stroke-width="1.5">
+      <rect width="108" height="144" fill="#fff"/>
+      <path d="M18 0V144 M36 0V144 M54 0V144 M72 0V144 M90 0V144 M0 18H108 M0 36H108 M0 54H108 M0 72H108 M0 90H108 M0 108H108 M0 126H108"/>
+    </g>
+    <g id="token-stack">
+      <g fill="none" stroke="#15191a" stroke-width="1.7">
+        <path d="M-18 10V130 M108 10V130 M90 10H108 M90 34H108 M90 58H108 M90 82H108 M90 106H108 M90 130H108"/>
+        <path d="M-18 10H-2 M-18 34H-2 M-18 58H-2 M-18 82H-2 M-18 106H-2 M-18 130H-2" marker-end="url(#arrow)"/>
+      </g>
+      <g stroke-width="2.8">
+        <rect width="90" height="18" y="1" rx="8"/>
+        <rect width="90" height="18" y="25" rx="8"/>
+        <rect width="90" height="18" y="49" rx="8"/>
+        <rect width="90" height="18" y="73" rx="8"/>
+        <rect width="90" height="18" y="97" rx="8"/>
+        <rect width="90" height="18" y="121" rx="8"/>
+      </g>
+    </g>
+    <g id="addition" fill="none" stroke="#15191a" stroke-width="1.8">
+      <circle r="12" fill="#c8cfd0"/>
+      <path d="M-12 0H12 M0-12V12"/>
+    </g>
+  </defs>
+
+  <rect width="1400" height="440" fill="#fff"/>
+  <rect x="195" y="78" width="1010" height="334" rx="22" fill="#c8cfd0" stroke="#495459" stroke-width="2.6" stroke-dasharray="7 4"/>
+
+  <g fill="#111516" font-family="Arial, Helvetica, sans-serif" font-size="25">
+    <text x="255" y="62">Transformer layer · pre-norm</text>
+    <text x="450" y="126" text-anchor="middle">Residual connection</text>
+    <text x="930" y="126" text-anchor="middle">Residual connection</text>
+  </g>
+
+  <!-- Each skip branches before its LayerNorm and rejoins after its sublayer. -->
+  <g fill="none" stroke="#15191a" stroke-width="1.8" marker-end="url(#arrow)">
+    <path d="M180 250H267"/>
+    <path d="M393 250H445"/>
+    <path d="M615 250H662"/>
+    <path d="M687 250H737"/>
+    <path d="M863 250H977"/>
+    <path d="M1103 250H1137"/>
+    <path d="M1162 250H1236"/>
+    <path d="M225 250V140H675V236"/>
+    <path d="M710 250V140H1150V236"/>
+  </g>
+  <g fill="#15191a">
+    <circle cx="225" cy="250" r="2.7"/>
+    <circle cx="710" cy="250" r="2.7"/>
+  </g>
+
+  <use href="#grid" x="54" y="178"/>
+  <use href="#token-stack" x="285" y="180" fill="#99d7d1" stroke="#348981"/>
+  <rect x="445" y="182" width="170" height="138" rx="22" fill="#cf845f" stroke="#834b2d" stroke-width="3"/>
+  <use href="#addition" x="675" y="250"/>
+  <use href="#token-stack" x="755" y="180" fill="#99d7d1" stroke="#348981"/>
+  <use href="#token-stack" x="995" y="180" fill="#a8bfcb" stroke="#4e7082"/>
+  <use href="#addition" x="1150" y="250"/>
+  <use href="#grid" x="1248" y="178"/>
+
+  <g fill="#111516" font-family="Arial, Helvetica, sans-serif" font-size="25" text-anchor="middle">
+    <text x="108" y="356">Input</text>
+    <text x="330" y="356">LayerNorm 1</text>
+    <text x="530" y="356">Multi-head</text>
+    <text x="530" y="387">self-attention</text>
+    <text x="800" y="356">LayerNorm 2</text>
+    <text x="1040" y="356">Feed-forward</text>
+    <text x="1040" y="387">network (×L)</text>
+    <text x="1302" y="356">Output</text>
+  </g>
+  <g fill="#111516" font-family="Georgia, 'Times New Roman', serif" font-size="25" text-anchor="middle" font-style="italic">
+    <text x="108" y="168">L</text>
+    <text x="38" y="257">D</text>
+    <text x="108" y="389">X</text>
+    <text x="330" y="387">(×L)</text>
+    <text x="702" y="280">U</text>
+    <text x="800" y="387">(×L)</text>
+    <text x="1302" y="389">Y</text>
+  </g>
+</svg>

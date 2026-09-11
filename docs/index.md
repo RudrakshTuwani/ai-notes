@@ -18,6 +18,8 @@ Short, visual notes for building a durable understanding of modern language mode
 
     [Study normalization →](cheatsheets/normalization.md)
 
+    [Study the Transformer layer →](cheatsheets/transformer-layer.md)
+
 -   **Go deeper**
 
     Continue with selected courses, books, and technical articles.
