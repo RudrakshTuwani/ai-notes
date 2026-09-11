@@ -16,6 +16,8 @@ Short, visual notes for building a durable understanding of modern language mode
 
     [Study attention →](cheatsheets/attention.md)
 
+    [Study normalization →](cheatsheets/normalization.md)
+
 -   **Go deeper**
 
     Continue with selected courses, books, and technical articles.

@@ -36,6 +36,7 @@ nav:
   - Plan: plan.md
   - Cheatsheets:
       - Attention: cheatsheets/attention.md
+      - Normalization: cheatsheets/normalization.md
   - Resources: resources.md
 
 markdown_extensions:

@@ -4,7 +4,7 @@
 
 - [ ] Transformer basics
   - [ ] [Multihead self-attention](cheatsheets/attention.md)
-  - [ ] LayerNorm
+  - [ ] [Normalization: LayerNorm and RMSNorm](cheatsheets/normalization.md)
   - [ ] Attention block
 - [ ] [Attention variants](https://magazine.sebastianraschka.com/p/visual-attention-variants)
 
