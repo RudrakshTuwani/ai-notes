@@ -120,7 +120,30 @@ For the first row, LayerNorm subtracts $2$ and divides by $\sqrt{1}$; RMSNorm di
 
 **Add $2$ to every channel:** LayerNorm gives the same result because centering removes the offset. RMSNorm preserves the vector's direction by dividing every channel by the same scalar; shifting the input changes that direction. A later learned channel scale can change direction again.
 
-## 4. Check your understanding
+## 4. Pre-norm vs. post-norm
+
+The difference is **where normalization sits relative to each residual addition**. A transformer block applies this pattern twice: once for attention, once for the feed-forward network.
+
+```python
+# Post-norm: normalize after adding the residual
+x = norm1(x + attention(x))
+x = norm2(x + feed_forward(x))
+
+# Pre-norm: normalize the input to each sublayer
+x = x + attention(norm1(x))
+x = x + feed_forward(norm2(x))
+```
+
+*Pseudocode: `norm1` and `norm2` have separate learned parameters; dropout is omitted.*
+
+- **Post-norm:** normalization acts on the combined signal—the original `x` plus the sublayer's update.
+- **Pre-norm:** only the update branch receives normalized input. The residual path carries `x` directly through the addition.
+- **Why this helps:** for pre-norm, $\mathbf{y}=\mathbf{x}+F(\operatorname{norm}(\mathbf{x}))$, where $F$ is the attention or feed-forward sublayer, the derivative contains an identity term: $\partial\mathbf{y}/\partial\mathbf{x}=\mathbf{I}+\cdots$. Here $\mathbf{I}$ is the identity map on the input. This gives gradients a direct route through stacked residual blocks. In post-norm, even that route passes through normalization.
+- **Training implication:** pre-norm generally makes deep transformers easier to optimize. It can reduce sensitivity to learning-rate warmup; it does **not** guarantee stable training or make warmup universally unnecessary. [Xiong et al., 2020](https://arxiv.org/abs/2002.04745)
+
+**Placement and normalization type are separate choices:** pre-norm can use LayerNorm or RMSNorm.
+
+## 5. Check your understanding
 
 ### Easy
 
