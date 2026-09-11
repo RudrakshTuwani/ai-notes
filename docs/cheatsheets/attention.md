@@ -161,3 +161,9 @@ $$
 Different projections let the $H$ heads learn different relationships; the output projection recombines their $D/H$-wide representations.
 
 _Notation adapted from Simon J. D. Prince's [Understanding Deep Learning](https://udlbook.github.io/udlbook/)._
+
+## Visual explanations
+
+- [3Blue1Brown — Attention in transformers, step by step](https://www.3blue1brown.com/lessons/attention/): visual intuition for queries, keys, attention weights, and value mixing. [Watch the video](https://www.youtube.com/watch?v=eMlx5fFNoYc).
+- [Jay Alammar — The Illustrated Transformer](https://jalammar.github.io/illustrated-transformer/): illustrated calculations and a clear walkthrough of multi-head concatenation and output projection. Its matrix diagrams use tokens as rows; this cheatsheet uses columns.
+- [3Blue1Brown — Softmax](https://www.3blue1brown.com/lessons/gpt/#softmax): how scores become probabilities and how scaling changes their concentration.
