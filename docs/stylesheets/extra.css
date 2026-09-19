@@ -46,3 +46,7 @@
 .md-typeset .task-list-control .task-list-indicator::before {
   border-radius: 0.2rem;
 }
+
+.md-typeset [id^="ref-"] {
+  scroll-margin-top: 5rem;
+}

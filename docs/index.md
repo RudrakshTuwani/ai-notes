@@ -1,35 +1,56 @@
-# AI Notes
+# Plan
 
-Short, visual notes for building a durable understanding of modern language models—from transformer architecture to the systems that make training possible.
+## Mathematical Foundations
 
-<div class="grid cards" markdown>
+- [ ] Linear Algebra: Rank, Eigenvalues, SVD
+- [ ] Probability: Maximum Likelihood, Bayesian Inference
 
--   **Follow the learning plan**
+## Transformer Architecture
 
-    Move through architecture, systems, training, and post-training in a deliberate order.
+- [x] [Multihead Self-Attention](cheatsheets/attention.md) <sup>[1](#ref-1)</sup>
+- [x] [LayerNorm / RMSNorm](cheatsheets/normalization.md) <sup>[2](#ref-2)</sup>
+- [ ] [Transformer Layer](cheatsheets/transformer-layer.md) <sup>[3](#ref-3)</sup>
+- [ ] Attention Variants: GQA, MLA <sup>[4](#ref-4)</sup>
+- [ ] Positional Info: Rotary Embeddings
 
-    [Open the plan →](plan.md)
+## Neural Net Optimization
 
--   **Use the cheatsheets**
+- [ ] Optimizers: SGD, Adam, AdamW
+- [ ] Automatic Differentiation: Forward and Reverse Mode
 
-    Review compact, equation-first explanations of core ideas.
+## Performance Engineering
 
-    [Study attention →](cheatsheets/attention.md)
+- [ ] Transformer Compute and Memory Costs <sup>[5](#ref-5)</sup>
+- [ ] Roofline Analysis <sup>[6](#ref-6)</sup>
+- [ ] Sharded Matrix Multiplication <sup>[7](#ref-7)</sup>
+- [ ] FlashAttention
+- [ ] TPU Architecture <sup>[8](#ref-8)</sup>
+- [ ] Distributed Training: Data, Tensor, and Pipeline Parallelism
+- [ ] KV Caching
+- [ ] Quantization: INT8, FP8
+- [ ] Speculative Decoding
 
-    [Study normalization →](cheatsheets/normalization.md)
+## Pre-training
 
-    [Study the Transformer layer →](cheatsheets/transformer-layer.md)
+- [ ] Scaling Laws <sup>[9](#ref-9), [10](#ref-10)</sup>
 
--   **Go deeper**
+## Post-training
 
-    Continue with selected courses, books, and technical articles.
+- [ ] Low-Rank Adaptation: LoRA
+- [ ] Reinforcement Learning from Human Feedback: RLHF
+- [ ] Constitutional AI
 
-    [Browse resources →](resources.md)
+---
 
-</div>
+## References
 
-## Current focus
-
-The first cheatsheet develops attention progressively: value mixing, dot-product attention, scaling, and finally multi-head self-attention. Notation follows the column-oriented convention used in *Understanding Deep Learning*.
-
-[Start with the attention cheatsheet](cheatsheets/attention.md){ .md-button .md-button--primary }
+1. <span id="ref-1"></span>[AI Notes — Multihead Self-Attention](cheatsheets/attention.md)
+2. <span id="ref-2"></span>[AI Notes — LayerNorm and RMSNorm](cheatsheets/normalization.md)
+3. <span id="ref-3"></span>[AI Notes — Transformer Layer](cheatsheets/transformer-layer.md)
+4. <span id="ref-4"></span>[Visual Guide to Attention Variants](https://magazine.sebastianraschka.com/p/visual-attention-variants)
+5. <span id="ref-5"></span>[Scaling Book, Chapter 4 — All the Transformer Math You Need to Know](https://jax-ml.github.io/scaling-book/transformers)
+6. <span id="ref-6"></span>[Scaling Book, Chapter 1 — A Brief Intro to Roofline Analysis](https://jax-ml.github.io/scaling-book/roofline)
+7. <span id="ref-7"></span>[Scaling Book, Chapter 3 — Sharded Matrices and How to Multiply Them](https://jax-ml.github.io/scaling-book/sharding)
+8. <span id="ref-8"></span>[Scaling Book, Chapter 2 — How to Think About TPUs](https://jax-ml.github.io/scaling-book/tpus)
+9. <span id="ref-9"></span>[Stanford CS336 Spring 2026 — Lecture 9: Scaling Laws](https://www.youtube.com/watch?v=Q15rhEWZPQ4)
+10. <span id="ref-10"></span>[Stanford CS336 Spring 2026 — Lecture 11: Scaling Laws](https://www.youtube.com/watch?v=vTfEyOyzV9E)
