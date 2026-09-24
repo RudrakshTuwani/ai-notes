@@ -37,6 +37,7 @@ nav:
       - Attention: cheatsheets/attention.md
       - Normalization: cheatsheets/normalization.md
       - Transformer layer: cheatsheets/transformer-layer.md
+      - Distributed Training: cheatsheets/distributed-training.md
   - Resources: resources.md
 
 markdown_extensions:

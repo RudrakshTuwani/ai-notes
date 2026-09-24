@@ -25,7 +25,7 @@
 - [ ] Sharded Matrix Multiplication <sup>[7](#ref-7)</sup>
 - [ ] FlashAttention
 - [ ] TPU Architecture <sup>[8](#ref-8)</sup>
-- [ ] Distributed Training: Data, Tensor, and Pipeline Parallelism
+- [ ] [Distributed Training](cheatsheets/distributed-training.md): Data, Tensor, and Pipeline Parallelism
 - [ ] KV Caching
 - [ ] Quantization: INT8, FP8
 - [ ] Speculative Decoding
