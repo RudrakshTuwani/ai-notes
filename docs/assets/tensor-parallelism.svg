@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="438" viewBox="0 0 720 438" role="img" aria-labelledby="tp-title tp-description">
+  <title id="tp-title">Tensor Parallelism — Split Each Layer Across GPUs</title>
+  <desc id="tp-description">A model has three successive layers. Each layer's weight tensor is shown as one rectangle divided into three colored slices. GPU 1 owns the blue slice of every layer, GPU 2 the orange slice, and GPU 3 the green slice. The GPUs share the computation within each layer. Arrows between layer headings indicate model order, not direct GPU-to-GPU communication. This is a schematic of parameter ownership; partition axes, activation layouts, and communication operations are intentionally unspecified.</desc>
+  <defs>
+    <marker id="tp-arrow" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="8" markerHeight="8" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M1 1L6 4L1 7" fill="none" stroke="#657181" stroke-width="1.5"/>
+    </marker>
+    <clipPath id="tp-layer-clip"><rect width="176" height="270" rx="5"/></clipPath>
+    <g id="tp-partitioned-layer">
+      <g clip-path="url(#tp-layer-clip)">
+        <rect width="176" height="90" fill="#dceaf7"/>
+        <rect y="90" width="176" height="90" fill="#f6e7d6"/>
+        <rect y="180" width="176" height="90" fill="#e1eddd"/>
+      </g>
+      <rect width="176" height="270" rx="5" fill="none" stroke="#aeb7c2"/>
+      <path d="M0 90H176M0 180H176" fill="none" stroke="#76818d" stroke-dasharray="5 5"/>
+      <g font-size="22">
+        <text x="88" y="53">GPU 1</text>
+        <text x="88" y="143">GPU 2</text>
+        <text x="88" y="233">GPU 3</text>
+      </g>
+    </g>
+  </defs>
+  <rect width="720" height="438" fill="#fff"/>
+  <g font-family="Arial, Helvetica, sans-serif" fill="#222a35" text-anchor="middle">
+    <text x="360" y="31" font-size="25" font-weight="500">Split each layer across GPUs</text>
+    <text x="360" y="63" font-size="20" fill="#596373">Each GPU holds a slice of each layer’s weights</text>
+    <g font-size="22">
+      <text x="120" y="100">Layer 1</text>
+      <text x="360" y="100">Layer 2</text>
+      <text x="600" y="100">Layer 3</text>
+    </g>
+    <g fill="none" stroke="#657181" stroke-width="1.5" marker-end="url(#tp-arrow)">
+      <path d="M218 92H262"/>
+      <path d="M458 92H502"/>
+    </g>
+    <use href="#tp-partitioned-layer" x="32" y="112"/>
+    <use href="#tp-partitioned-layer" x="272" y="112"/>
+    <use href="#tp-partitioned-layer" x="512" y="112"/>
+    <text x="360" y="418" font-size="20" fill="#596373">GPUs cooperate on the same batch.</text>
+  </g>
+</svg>

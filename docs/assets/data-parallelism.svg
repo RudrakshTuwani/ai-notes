@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="442" viewBox="0 0 600 442" role="img" aria-labelledby="dp-title dp-description">
+  <title id="dp-title">Data Parallelism — Full Model Replicas Across Ranks</title>
+  <desc id="dp-description">A neutral full batch is divided into slices A, B, and C. Each slice goes to a different GPU, shown in blue, orange, and green. Every GPU holds the same complete model, L1 through L3, and computes gradients using its own slice. One shared All-Reduce operation connects all three GPUs and gives each the same averaged gradients. The All-Reduce box represents a collective operation, not a separate device.</desc>
+  <defs>
+    <marker id="dp-arrow" viewBox="0 0 8 8" refX="6" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse" markerUnits="userSpaceOnUse">
+      <path d="M1 1L6 4L1 7" fill="none" stroke="#68717e" stroke-width="1.4"/>
+    </marker>
+    <g id="dp-model">
+      <g fill="none" stroke="#87909b" stroke-opacity="0.55">
+        <rect x="16" y="54" width="36" height="38" rx="3"/>
+        <rect x="70" y="54" width="36" height="38" rx="3"/>
+        <rect x="124" y="54" width="36" height="38" rx="3"/>
+      </g>
+      <g fill="none" stroke="#68717e" stroke-width="1.3" marker-end="url(#dp-arrow)">
+        <path d="M56 73H65"/>
+        <path d="M110 73H119"/>
+      </g>
+      <g font-size="22" text-anchor="middle">
+        <text x="34" y="81">L1</text>
+        <text x="88" y="81">L2</text>
+        <text x="142" y="81">L3</text>
+      </g>
+    </g>
+  </defs>
+  <rect width="600" height="442" fill="#fff"/>
+  <g fill="#222a35" font-family="Arial, Helvetica, sans-serif" font-size="22">
+    <text x="300" y="30" text-anchor="middle" font-weight="500">Full Model Replicas Across Ranks</text>
+    <text x="300" y="62" text-anchor="middle" fill="#596373" font-size="20">Split batch across GPUs</text>
+    <text x="300" y="103" text-anchor="middle">Full batch</text>
+
+    <rect x="12" y="116" width="576" height="46" rx="4" fill="#f0f1f3" stroke="#c8cdd4"/>
+    <path d="M204 116V162M396 116V162" fill="none" stroke="#87909b" stroke-dasharray="4 4"/>
+    <g text-anchor="middle">
+      <text x="108" y="146">A</text>
+      <text x="300" y="146">B</text>
+      <text x="492" y="146">C</text>
+    </g>
+
+    <g fill="none" stroke="#68717e" stroke-width="1.4" marker-end="url(#dp-arrow)">
+      <path d="M108 168V194"/>
+      <path d="M300 168V194"/>
+      <path d="M492 168V194"/>
+    </g>
+    <g transform="translate(20 202)">
+      <rect width="176" height="110" rx="5" fill="#dceaf7"/>
+      <text x="88" y="33" text-anchor="middle" font-weight="500">GPU 1</text>
+      <use href="#dp-model"/>
+    </g>
+    <g transform="translate(212 202)">
+      <rect width="176" height="110" rx="5" fill="#f6e7d6"/>
+      <text x="88" y="33" text-anchor="middle" font-weight="500">GPU 2</text>
+      <use href="#dp-model"/>
+    </g>
+    <g transform="translate(404 202)">
+      <rect width="176" height="110" rx="5" fill="#e1eddd"/>
+      <text x="88" y="33" text-anchor="middle" font-weight="500">GPU 3</text>
+      <use href="#dp-model"/>
+    </g>
+
+    <g fill="none" stroke="#68717e" stroke-width="1.4" marker-start="url(#dp-arrow)" marker-end="url(#dp-arrow)">
+      <path d="M108 320V351"/>
+      <path d="M300 320V351"/>
+      <path d="M492 320V351"/>
+    </g>
+    <rect x="12" y="359" width="576" height="70" rx="4" fill="none" stroke="#c8cdd4"/>
+    <text x="300" y="388" text-anchor="middle" font-weight="500">All-Reduce Gradients</text>
+    <text x="300" y="415" text-anchor="middle" fill="#596373" font-size="20">Same averaged gradients on every GPU</text>
+  </g>
+</svg>
